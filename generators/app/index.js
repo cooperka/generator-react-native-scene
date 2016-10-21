@@ -43,10 +43,10 @@ module.exports = yeoman.Base.extend({
   },
 
   writing: function () {
-    const templates = glob.sync(`${__dirname}/templates/*.ejs`);
+    const templates = glob.sync(`${__dirname}/templates/**/*.ejs*`);
 
     templates.forEach((templatePath) => {
-      const filename = path.basename(templatePath);
+      const filename = path.relative(`${__dirname}/templates`, templatePath);
 
       this.fs.copyTpl(
         this.templatePath(filename),

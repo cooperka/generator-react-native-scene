@@ -1,0 +1,18 @@
+exports[`<%= componentName %> renders with default props 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#F0F1F1",
+        "flex": 1,
+      },
+    ]
+  }>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail">
+    Hello, <%= componentName %>!
+  </Text>
+</View>
+`;
