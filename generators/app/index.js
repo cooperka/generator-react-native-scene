@@ -1,3 +1,5 @@
+const path = require('path');
+const glob = require('glob');
 const yeoman = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
@@ -35,20 +37,23 @@ module.exports = yeoman.Base.extend({
       // To access props later use this.props.propName;
       this.props = props;
 
-      this.props.componentConstant = changeCase.constantCase(this.props.componentName);
+      this.props.componentNameConstant = changeCase.constantCase(this.props.componentName);
+      this.props.componentNameCamel = changeCase.camelCase(this.props.componentName);
     });
   },
 
   writing: function () {
-    this.fs.copyTpl(
-      this.templatePath('component.ejs'),
-      this.destinationPath('component.js'),
-      this.props
-    );
-  },
+    const templates = glob.sync(`${__dirname}/templates/*.ejs`);
 
-  install: function () {
-    this.installDependencies();
+    templates.forEach((templatePath) => {
+      const filename = path.basename(templatePath);
+
+      this.fs.copyTpl(
+        this.templatePath(filename),
+        this.destinationPath(filename.replace('.ejs', '.js')),
+        this.props
+      );
+    });
   },
 
 });

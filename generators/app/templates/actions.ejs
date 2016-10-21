@@ -1,0 +1,10 @@
+import reduxUtils from '../../../redux-utils';
+
+// --- Action types
+
+export const CLICKED_VIEW_<%= componentNameConstant %> = 'CLICKED_VIEW_<%= componentNameConstant %>';
+
+// --- Action creators
+
+export const clickedView<%= componentName %> = () =>
+  reduxUtils.createEvent(CLICKED_VIEW_<%= componentNameConstant %>);

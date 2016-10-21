@@ -1,0 +1,15 @@
+import { takeLatest } from 'redux-saga';
+import { put, fork } from 'redux-saga/effects';
+
+import constants from '../../../constants';
+
+import * as navigationActions from '../navigation/actions';
+import * as <%= componentNameCamel %>Actions from './actions';
+
+function* performShowScene() {
+  yield put(navigationActions.push(constants.sceneKey.<%= componentNameConstant %>));
+}
+
+export default function* rootSaga() {
+  yield fork(takeLatest, <%= componentNameCamel %>Actions.CLICKED_VIEW_<%= componentNameConstant %>, performShowScene);
+}

@@ -13,7 +13,10 @@ describe('generator-crib-rn-scene-basic:app', () => {
 
   it('creates files', () => {
     assert.file([
+      'index.js',
       'component.js',
+      'actions.js',
+      'workflow.js',
     ]);
   });
 });
