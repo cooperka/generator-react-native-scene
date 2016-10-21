@@ -1,18 +1,19 @@
-'use strict';
-var path = require('path');
-var assert = require('yeoman-assert');
-var helpers = require('yeoman-test');
+const path = require('path');
+const assert = require('yeoman-assert');
+const helpers = require('yeoman-test');
 
-describe('generator-crib-rn-scene-basic:app', function () {
-  before(function () {
+describe('generator-crib-rn-scene-basic:app', () => {
+  before(() => {
     return helpers.run(path.join(__dirname, '../generators/app'))
-      .withPrompts({someAnswer: true})
+      .withPrompts({
+        componentName: 'TestComponent',
+      })
       .toPromise();
   });
 
-  it('creates files', function () {
+  it('creates files', () => {
     assert.file([
-      'dummyfile.txt'
+      'dummyfile.txt',
     ]);
   });
 });

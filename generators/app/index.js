@@ -1,26 +1,27 @@
-'use strict';
-var yeoman = require('yeoman-generator');
-var chalk = require('chalk');
-var yosay = require('yosay');
+const yeoman = require('yeoman-generator');
+const chalk = require('chalk');
+const yosay = require('yosay');
 
 module.exports = yeoman.Base.extend({
+
   prompting: function () {
-    // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the astounding ' + chalk.red('generator-crib-rn-scene-basic') + ' generator!'
+      `Welcome to the astounding ${chalk.red('crib-rn-scene-basic')} generator!`
     ));
 
-    var prompts = [{
-      type: 'confirm',
-      name: 'someAnswer',
-      message: 'Would you like to enable this option?',
-      default: true
-    }];
+    const prompts = [
+      {
+        type: 'input',
+        name: 'componentName',
+        message: 'New component\'s name',
+        default: 'MyComponent',
+      },
+    ];
 
-    return this.prompt(prompts).then(function (props) {
-      // To access props later use this.props.someAnswer;
+    return this.prompt(prompts).then((props) => {
+      // To access props later use this.props.propName;
       this.props = props;
-    }.bind(this));
+    });
   },
 
   writing: function () {
@@ -32,5 +33,6 @@ module.exports = yeoman.Base.extend({
 
   install: function () {
     this.installDependencies();
-  }
+  },
+
 });
