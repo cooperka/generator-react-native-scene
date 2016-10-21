@@ -18,7 +18,6 @@ describe('generator-crib-rn-scene-basic:app', () => {
       'actions.js',
       'workflow.js',
       '__tests__/component.test.js',
-      '__tests__/__snapshots__/component.test.js.snap',
     ]);
   });
 });
