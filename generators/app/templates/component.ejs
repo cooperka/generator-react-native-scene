@@ -1,0 +1,39 @@
+'use extensible';
+
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+import { connect } from 'react-redux';
+
+import constants from '../../../constants';
+import { lightTheme as style } from '../../../styles';
+
+import { instrumentScene } from '../../InstrumentedScene';
+
+/**
+ * <%= description %>
+ */
+class <%= componentName %> extends Component {
+
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+  };
+
+  static route = {
+    navigationBar: {
+      title: '<%= sceneTitle %>',
+    },
+  };
+
+  render() {
+    return (
+      <View style={[style.sceneContainer]}>
+        <Text>Hello, <%= componentName %>!</Text>
+      </View>
+    );
+  }
+
+}
+
+const connectedScene = connect()(<%= componentName %>);
+
+export default instrumentScene(connectedScene, constants.sceneKey.<%= componentConstant %>);

@@ -13,7 +13,7 @@ describe('generator-crib-rn-scene-basic:app', () => {
 
   it('creates files', () => {
     assert.file([
-      'dummyfile.txt',
+      'component.js',
     ]);
   });
 });

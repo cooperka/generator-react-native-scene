@@ -1,6 +1,7 @@
 const yeoman = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
+const changeCase = require('change-case');
 
 module.exports = yeoman.Base.extend({
 
@@ -14,20 +15,35 @@ module.exports = yeoman.Base.extend({
         type: 'input',
         name: 'componentName',
         message: 'New component\'s name',
-        default: 'MyComponent',
+        default: 'MyScene',
+      },
+      {
+        type: 'input',
+        name: 'sceneTitle',
+        message: 'Scene title',
+        default: 'My Scene',
+      },
+      {
+        type: 'input',
+        name: 'description',
+        message: 'New component\'s description',
+        default: 'Screen showing a basic greeting.',
       },
     ];
 
     return this.prompt(prompts).then((props) => {
       // To access props later use this.props.propName;
       this.props = props;
+
+      this.props.componentConstant = changeCase.constantCase(this.props.componentName);
     });
   },
 
   writing: function () {
-    this.fs.copy(
-      this.templatePath('dummyfile.txt'),
-      this.destinationPath('dummyfile.txt')
+    this.fs.copyTpl(
+      this.templatePath('component.ejs'),
+      this.destinationPath('component.js'),
+      this.props
     );
   },
 
