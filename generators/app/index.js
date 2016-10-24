@@ -21,6 +21,12 @@ module.exports = yeoman.Base.extend({
       },
       {
         type: 'input',
+        name: 'componentPath',
+        message: 'Relative path the new component\'s parent directory',
+        default: 'src/components/App',
+      },
+      {
+        type: 'input',
         name: 'componentName',
         message: 'New component\'s name',
         default: 'MyScene',
@@ -49,7 +55,7 @@ module.exports = yeoman.Base.extend({
   },
 
   writing: function () {
-    const { projectPath, componentName, componentNameConstant, componentNameCamel } = this.props;
+    const { projectPath, componentPath, componentName, componentNameConstant, componentNameCamel } = this.props;
 
     const templates = glob.sync(`${__dirname}/templates/**/*.ejs`);
 
@@ -58,7 +64,7 @@ module.exports = yeoman.Base.extend({
 
       this.fs.copyTpl(
         this.templatePath(filename),
-        this.destinationPath(filename.replace('.ejs', '.js')),
+        path.join(projectPath, componentPath, componentName, filename.replace('.ejs', '.js')),
         this.props
       );
     });
