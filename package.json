@@ -1,6 +1,11 @@
 {
   "name": "generator-crib-rn-scene-basic",
   "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "prepublish": "gulp prepublish",
+    "test": "gulp"
+  },
   "description": "Yeoman generator for a basic scene for a React Native app for Cribspot.",
   "homepage": "",
   "author": {
@@ -17,10 +22,6 @@
     "scene",
     "yeoman-generator"
   ],
-  "scripts": {
-    "prepublish": "gulp prepublish",
-    "test": "gulp"
-  },
   "dependencies": {
     "chalk": "^1.0.0",
     "change-case": "^3.0.0",
