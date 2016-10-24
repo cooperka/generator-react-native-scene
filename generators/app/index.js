@@ -15,6 +15,12 @@ module.exports = yeoman.Base.extend({
     const prompts = [
       {
         type: 'input',
+        name: 'projectPath',
+        message: 'Absolute path to your React Native project',
+        default: '/Users/klap-hotel/Dev/cribspot/home-app/',
+      },
+      {
+        type: 'input',
         name: 'componentName',
         message: 'New component\'s name',
         default: 'MyScene',
@@ -43,6 +49,8 @@ module.exports = yeoman.Base.extend({
   },
 
   writing: function () {
+    const { projectPath, componentName, componentNameConstant, componentNameCamel } = this.props;
+
     const templates = glob.sync(`${__dirname}/templates/**/*.ejs`);
 
     templates.forEach((templatePath) => {
@@ -54,6 +62,41 @@ module.exports = yeoman.Base.extend({
         this.props
       );
     });
+
+    const constantsPath = path.join(projectPath, 'src', 'constants.js');
+    this._insertLineBeforeMatch(
+      'new-constants-here',
+      `${this._getSedIndent(2)}${componentNameConstant}: '${componentNameConstant}',`,
+      constantsPath);
+
+    const workflowsPath = path.join(projectPath, 'src', 'workflows.index.js');
+    this._insertLineBeforeMatch(
+      'new-imports-here',
+      `${this._getSedIndent(0)}import ${componentNameCamel}Workflow from './components/App/${componentName}/workflow';`,
+      workflowsPath);
+    this._insertLineBeforeMatch(
+      'new-workflows-here',
+      `${this._getSedIndent(2)}${componentNameCamel}Workflow(),`,
+      workflowsPath);
+
+    const routerPath = path.join(projectPath, 'src', 'components', 'App', 'navigation', 'router.js');
+    this._insertLineBeforeMatch(
+      'new-imports-here',
+      `${this._getSedIndent(1)}const ${componentName} = require('../${componentName}').default;`,
+      routerPath);
+    this._insertLineBeforeMatch(
+      'new-routes-here',
+      `${this._getSedIndent(1)}routes[constants.sceneKey.${componentNameConstant}] = () => ${componentName};`,
+      routerPath);
+  },
+
+  /** Indent 2 spaces per tab, escaping spaces for `sed`. */
+  _getSedIndent: (numTabs) => '\\ '.repeat(numTabs * 2),
+
+  // TODO: Fix -i flag so it works on regular linux. Empty string is required to make it work on OSX.
+  /** Spawn a shell command that inserts lineToAdd directly after the matched text, followed by a newline. */
+  _insertLineBeforeMatch: function (matcher, lineToAdd, filePath) {
+    this.spawnCommand('sed', ['-i', '', `/${matcher}/i\\\n${lineToAdd}\n`, filePath]);
   },
 
 });
