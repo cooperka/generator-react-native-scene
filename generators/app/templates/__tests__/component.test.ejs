@@ -1,16 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies, global-require */
-
-import React from 'react';
-import 'react-native';
-import renderer from 'react-test-renderer';
+import jestAssertions from '../../../../jest-assertions';
 
 import <%= componentName %> from '../component';
 
 describe('<%= componentName %>', () => {
-  it('renders with default props', () => {
-    const tree = renderer.create(
-      <<%= componentName %> />
-    ).toJSON();
-    expect(tree).toMatchSnapshot();
-  });
+  jestAssertions.itMatchesSnapshotsInDefaultStates(<%= componentName %>);
 });

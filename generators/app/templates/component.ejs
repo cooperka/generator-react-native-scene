@@ -2,12 +2,11 @@
 
 import React, { Component, PropTypes } from 'react';
 import { View, Text } from 'react-native';
-import { connect } from 'react-redux';
 
 import constants from '../../../constants';
 import { lightTheme as style } from '../../../styles';
 
-import { instrumentScene } from '../../InstrumentedScene';
+import instrumentScene from '../../InstrumentedScene';
 
 /**
  * <%= description %>
@@ -17,6 +16,18 @@ class <%= componentName %> extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
   };
+
+  static mapStateToProps(state) {
+    return {};
+  }
+
+  static mapDispatchToProps(dispatch) {
+    return {
+      doSomething: () => {},
+    };
+  }
+
+  static sceneKey = constants.sceneKey.<%= componentNameConstant %>;
 
   static route = {
     navigationBar: {
@@ -34,6 +45,4 @@ class <%= componentName %> extends Component {
 
 }
 
-const connectedScene = connect()(<%= componentName %>);
-
-export default instrumentScene(connectedScene, constants.sceneKey.<%= componentNameConstant %>);
+export default instrumentScene(<%= componentName %>);

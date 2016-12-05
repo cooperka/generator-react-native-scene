@@ -23,7 +23,7 @@ module.exports = yeoman.Base.extend({
         type: 'input',
         name: 'componentPath',
         message: 'Relative path the new component\'s parent directory',
-        default: 'src/components/App',
+        default: 'src/components/scenes',
       },
       {
         type: 'input',
@@ -76,16 +76,17 @@ module.exports = yeoman.Base.extend({
       constantsPath);
 
     const workflowsPath = path.join(projectPath, 'src', 'workflows.index.js');
+    const newWorkflowPath = `./components/scenes/${componentName}/workflow`;
     this._insertLineBeforeMatch(
       'new-imports-here',
-      `${this._getSedIndent(0)}import ${componentNameCamel}Workflow from './components/App/${componentName}/workflow';`,
+      `${this._getSedIndent(0)}import ${componentNameCamel}Workflow from '${newWorkflowPath}';`,
       workflowsPath);
     this._insertLineBeforeMatch(
       'new-workflows-here',
       `${this._getSedIndent(2)}${componentNameCamel}Workflow(),`,
       workflowsPath);
 
-    const routerPath = path.join(projectPath, 'src', 'components', 'App', 'navigation', 'router.js');
+    const routerPath = path.join(projectPath, 'src', 'components', 'navigation', 'router.js');
     this._insertLineBeforeMatch(
       'new-imports-here',
       `${this._getSedIndent(1)}const ${componentName} = require('../${componentName}').default;`,
