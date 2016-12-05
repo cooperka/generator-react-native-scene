@@ -1,0 +1,23 @@
+import constants from '../../../constants';
+
+import { BadParamError } from '../../../errors';
+
+export default {
+
+  fetch<%= componentName %>(authData, <%= componentNameCamel %>Link) {
+    if (!authData) {
+      throw new BadParamError('authData', authData);
+    } else if (!<%= componentNameCamel %>Link) {
+      throw new BadParamError('<%= componentNameCamel %>Link', <%= componentNameCamel %>Link);
+    }
+
+    const headers = new Headers({
+      Authorization: `Token token="${authData.get('token')}", email="${authData.get('email')}"`,
+    });
+
+    return fetch(`${constants.api.BASE}${<%= componentNameCamel %>Link}`, {
+      headers,
+    });
+  },
+
+};

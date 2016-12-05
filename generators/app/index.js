@@ -43,6 +43,12 @@ module.exports = yeoman.Base.extend({
         message: 'New component\'s description',
         default: 'Screen showing a basic greeting.',
       },
+      {
+        type: 'confirm',
+        name: 'includeReducer',
+        message: 'Include a reducer + source for fetching data?',
+        default: false,
+      },
     ];
 
     return this.prompt(prompts).then((props) => {
@@ -55,10 +61,17 @@ module.exports = yeoman.Base.extend({
   },
 
   writing: function () {
-    const { projectPath, componentPath, componentName, componentNameConstant, componentNameCamel } = this.props;
+    const {
+      projectPath, componentPath, componentName, componentNameConstant, componentNameCamel,
+      includeReducer,
+    } = this.props;
 
-    const templates = glob.sync(`${__dirname}/templates/**/*.ejs`);
+    // Ignore certain template files based on config flags.
+    const templateGlobsToIgnore = includeReducer ? '' : 'reducers|source|source.test';
 
+    const templates = glob.sync(`${__dirname}/templates/**/!(${templateGlobsToIgnore}).ejs`);
+
+    // Copy over all the template files, filling in the placeholders.
     templates.forEach((templatePath) => {
       const filename = path.relative(`${__dirname}/templates`, templatePath);
 
@@ -69,12 +82,28 @@ module.exports = yeoman.Base.extend({
       );
     });
 
+    // Tweak constants file.
     const constantsPath = path.join(projectPath, 'src', 'constants.js');
     this._insertLineBeforeMatch(
       'new-constants-here',
       `${this._getSedIndent(2)}${componentNameConstant}: '${componentNameConstant}',`,
       constantsPath);
 
+    // Tweak reducers index.
+    if (includeReducer) {
+      const reducersPath = path.join(projectPath, 'src', 'reducers.index.js');
+      const newReducerPath = `./components/scenes/${componentName}/reducers`;
+      this._insertLineBeforeMatch(
+        'new-imports-here',
+        `${this._getSedIndent(0)}import { ${componentNameCamel}Reducer } from '${newReducerPath}';`,
+        reducersPath);
+      this._insertLineBeforeMatch(
+        'new-reducers-here',
+        `${this._getSedIndent(1)}${componentNameCamel}: ${componentNameCamel}Reducer,`,
+        reducersPath);
+    }
+
+    // Tweak workflows index.
     const workflowsPath = path.join(projectPath, 'src', 'workflows.index.js');
     const newWorkflowPath = `./components/scenes/${componentName}/workflow`;
     this._insertLineBeforeMatch(
@@ -86,6 +115,7 @@ module.exports = yeoman.Base.extend({
       `${this._getSedIndent(2)}${componentNameCamel}Workflow(),`,
       workflowsPath);
 
+    // Tweak router file.
     const routerPath = path.join(projectPath, 'src', 'components', 'navigation', 'router.js');
     this._insertLineBeforeMatch(
       'new-imports-here',

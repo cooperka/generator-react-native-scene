@@ -1,15 +1,68 @@
-import { takeLatest } from 'redux-saga';
-import { put, fork } from 'redux-saga/effects';
+<% if (includeReducer) { %>import Immutable from 'immutable';
+
+<% } %>import { takeLatest } from 'redux-saga';
+import { <% if (includeReducer) { %>select, call, <% } %>put, fork } from 'redux-saga/effects';
 
 import constants from '../../../constants';
+<% if (includeReducer) { %>import apiUtils from '../../../api-utils';
+import appUtils from '../../../app-utils';
 
+import { BadResponseError } from '../../../errors';
+<% } %>
 import * as navigationActions from '../../navigation/actions';
 import * as <%= componentNameCamel %>Actions from './actions';
-
+<% if (includeReducer) { %>
+import <%= componentNameCamel %>Source from './source';
+<% } %>
 function* performShowScene() {
   yield put(navigationActions.push(constants.sceneKey.<%= componentNameConstant %>));
 }
+<% if (includeReducer) { %>
+function* performRefreshData() {
+  const { isLoading, <%= componentNameCamel %>CacheLink } = yield select((state) => ({
+    isLoading: state.<%= componentNameCamel %>.isLoading,
+    <%= componentNameCamel %>CacheLink: state.<%= componentNameCamel %>.<%= componentNameCamel %>CacheLink,
+  }));
 
+  if (isLoading) return;
+
+  yield put(<%= componentNameCamel %>Actions.invalidateCache());
+  yield put(<%= componentNameCamel %>Actions.get<%= componentName %>(<%= componentNameCamel %>CacheLink));
+}
+
+function* performGet<%= componentName %>({ payload: { <%= componentNameCamel %>Link } }) {
+  try {
+    const state = yield select((state) => ({
+      authData: state.userAuthData.authData,
+      <%= componentNameCamel %>: state.<%= componentNameCamel %>.<%= componentNameCamel %>,
+      <%= componentNameCamel %>CacheTime: state.<%= componentNameCamel %>.<%= componentNameCamel %>CacheTime,
+      <%= componentNameCamel %>CacheLink: state.<%= componentNameCamel %>.<%= componentNameCamel %>CacheLink,
+    }));
+
+    if (appUtils.isValidCacheData(state.<%= componentNameCamel %>, state.<%= componentNameCamel %>CacheTime)
+      && state.<%= componentNameCamel %>CacheLink === <%= componentNameCamel %>Link) {
+      log.info(`Using cached data for ${<%= componentNameCamel %>Link}.`);
+      yield put(<%= componentNameCamel %>Actions.loaded<%= componentName %>());
+      return;
+    }
+
+    const response = yield call(<%= componentNameCamel %>Source.fetch<%= componentName %>, state.authData, <%= componentNameCamel %>Link);
+    const responseData = yield apiUtils.getJsonFromValidResponse(response);
+    const <%= componentNameCamel %> = responseData && responseData.<%= componentNameCamel %>;
+
+    if (!<%= componentNameCamel %>) {
+      throw new BadResponseError('<%= componentNameCamel %>', responseData);
+    }
+
+    yield put(<%= componentNameCamel %>Actions.set<%= componentName %>(Immutable.fromJS(<%= componentNameCamel %>), <%= componentNameCamel %>Link));
+    yield put(<%= componentNameCamel %>Actions.loaded<%= componentName %>());
+  } catch (error) {
+    yield put(<%= componentNameCamel %>Actions.failedToGet<%= componentName %>(error));
+  }
+}
+<% } %>
 export default function* rootSaga() {
   yield fork(takeLatest, <%= componentNameCamel %>Actions.CLICKED_VIEW_<%= componentNameConstant %>, performShowScene);
-}
+<% if (includeReducer) { %>  yield fork(takeLatest, <%= componentNameCamel %>Actions.PULLED_TO_REFRESH, performRefreshData);
+  yield fork(takeLatest, <%= componentNameCamel %>Actions.GET_<%= componentNameConstant %>, performGet<%= componentName %>);
+<% } %>}

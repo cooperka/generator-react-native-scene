@@ -16,6 +16,7 @@ describe('generator-crib-rn-scene-basic:app', () => {
       'index.js',
       'component.js',
       'actions.js',
+      'reducers.js',
       'workflow.js',
       '__tests__/component.test.js',
     ]);

@@ -1,0 +1,10 @@
+import { mockAuthData } from '../../../../mock-data/responses';
+
+import source from '../source';
+
+describe('<%= componentName %> source', () => {
+  it('fetches with the correct params', () => {
+    const result = source.fetch<%= componentName %>(mockAuthData, '/path');
+    expect(result).toMatchSnapshot();
+  });
+});
