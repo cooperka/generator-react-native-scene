@@ -24,11 +24,11 @@ export const pulledToRefresh = () =>
 export const invalidateCache = () =>
   reduxUtils.createEvent(INVALIDATE_CACHE);
 
-export const get<%= componentName %> = (<%= componentName %>Link) =>
-  reduxUtils.createAction(GET_<%= componentNameConstant %>, { <%= componentName %>Link });
+export const get<%= componentName %> = (<%= componentNameCamel %>Link) =>
+  reduxUtils.createAction(GET_<%= componentNameConstant %>, { <%= componentNameCamel %>Link });
 
-export const set<%= componentName %> = (<%= componentName %>, <%= componentName %>Link) =>
-  reduxUtils.createAction(SET_<%= componentNameConstant %>, { <%= componentName %>, <%= componentName %>Link });
+export const set<%= componentName %> = (<%= componentNameCamel %>, <%= componentNameCamel %>Link) =>
+  reduxUtils.createAction(SET_<%= componentNameConstant %>, { <%= componentNameCamel %>, <%= componentNameCamel %>Link });
 
 export const loaded<%= componentName %> = () =>
   reduxUtils.createEvent(LOADED_<%= componentNameConstant %>);
