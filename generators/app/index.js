@@ -86,7 +86,7 @@ module.exports = yeoman.Base.extend({
     const constantsPath = path.join(projectPath, 'src', 'constants.js');
     this._insertLineBeforeMatch(
       'new-constants-here',
-      `${this._getSedIndent(2)}${componentNameConstant}: '${componentNameConstant}',`,
+      `${this._getIndent(2)}${componentNameConstant}: '${componentNameConstant}',`,
       constantsPath);
 
     // Tweak reducers index.
@@ -95,11 +95,11 @@ module.exports = yeoman.Base.extend({
       const newReducerPath = `./components/scenes/${componentName}/reducers`;
       this._insertLineBeforeMatch(
         'new-imports-here',
-        `${this._getSedIndent(0)}import { ${componentNameCamel}Reducer } from '${newReducerPath}';`,
+        `${this._getIndent(0)}import { ${componentNameCamel}Reducer } from '${newReducerPath}';`,
         reducersPath);
       this._insertLineBeforeMatch(
         'new-reducers-here',
-        `${this._getSedIndent(1)}${componentNameCamel}: ${componentNameCamel}Reducer,`,
+        `${this._getIndent(1)}${componentNameCamel}: ${componentNameCamel}Reducer,`,
         reducersPath);
     }
 
@@ -108,27 +108,23 @@ module.exports = yeoman.Base.extend({
     const newWorkflowPath = `./components/scenes/${componentName}/workflow`;
     this._insertLineBeforeMatch(
       'new-imports-here',
-      `${this._getSedIndent(0)}import ${componentNameCamel}Workflow from '${newWorkflowPath}';`,
+      `${this._getIndent(0)}import ${componentNameCamel}Workflow from '${newWorkflowPath}';`,
       workflowsPath);
     this._insertLineBeforeMatch(
       'new-workflows-here',
-      `${this._getSedIndent(2)}${componentNameCamel}Workflow(),`,
+      `${this._getIndent(2)}${componentNameCamel}Workflow(),`,
       workflowsPath);
 
-    // Tweak router file.
-    const routerPath = path.join(projectPath, 'src', 'components', 'navigation', 'router.js');
+    // Tweak route list.
+    const routerPath = path.join(projectPath, 'src', 'app-utils.js');
     this._insertLineBeforeMatch(
       'new-imports-here',
-      `${this._getSedIndent(1)}const ${componentName} = require('../${componentName}').default;`,
-      routerPath);
-    this._insertLineBeforeMatch(
-      'new-routes-here',
-      `${this._getSedIndent(1)}routes[constants.sceneKey.${componentNameConstant}] = () => ${componentName};`,
+      `${this._getIndent(4)}require('./components/scenes/${componentName}/index').default,`,
       routerPath);
   },
 
   /** Indent 2 spaces per tab, escaping spaces for `sed`. */
-  _getSedIndent: (numTabs) => '\\ '.repeat(numTabs * 2),
+  _getIndent: (numTabs) => '\\ '.repeat(numTabs * 2),
 
   // TODO: Fix -i flag so it works on regular linux. Empty string is required to make it work on OSX.
   /** Spawn a shell command that inserts lineToAdd directly after the matched text, followed by a newline. */
