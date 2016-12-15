@@ -9,8 +9,8 @@ import appUtils from '../../../app-utils';
 
 import { BadResponseError } from '../../../errors';
 <% } %>
-import * as navigationActions from '../../navigation/actions';
-import * as <%= componentNameCamel %>Actions from './actions';
+import { NavigationActions } from '../../navigation/actions';
+import * as <%= componentName %>ActionTypes from './actions';
 <% if (includeReducer) { %>
 import <%= componentNameCamel %>Source from './source';
 <% } %>

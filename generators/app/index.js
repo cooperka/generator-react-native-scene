@@ -85,8 +85,12 @@ module.exports = yeoman.Base.extend({
     // Tweak constants file.
     const constantsPath = path.join(projectPath, 'src', 'constants.js');
     this._insertLineBeforeMatch(
-      'new-constants-here',
+      'new-sceneKeys-here',
       `${this._getIndent(2)}${componentNameConstant}: '${componentNameConstant}',`,
+      constantsPath);
+    this._insertLineBeforeMatch(
+      'new-namespaces-here',
+      `${this._getIndent(2)}${componentNameConstant}: '${componentName}',`,
       constantsPath);
 
     // Tweak reducers index.

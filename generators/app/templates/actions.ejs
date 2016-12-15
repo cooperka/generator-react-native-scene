@@ -1,37 +1,46 @@
+import constants from '../../../constants';
 import reduxUtils from '../../../redux-utils';
 
 // --- Action types
 
-export const CLICKED_VIEW_<%= componentNameConstant %> = 'CLICKED_VIEW_<%= componentNameConstant %>';
+const actionTypes = reduxUtils.createActionTypes(constants.namespace.<%= componentNameConstant %>, [
+  'CLICKED_VIEW_<%= componentNameConstant %>',
 <% if (includeReducer) { %>
-export const PULLED_TO_REFRESH = 'PULLED_TO_REFRESH_<%= componentNameConstant %>';
+  'PULLED_TO_REFRESH_<%= componentNameConstant %>',
 
-export const INVALIDATE_CACHE = 'INVALIDATE_CACHE_<%= componentNameConstant %>';
+  'INVALIDATE_CACHE_<%= componentNameConstant %>',
 
-export const GET_<%= componentNameConstant %> = 'GET_<%= componentNameConstant %>';
-export const SET_<%= componentNameConstant %> = 'SET_<%= componentNameConstant %>';
-export const LOADED_<%= componentNameConstant %> = 'LOADED_<%= componentNameConstant %>';
-export const FAILED_TO_GET_<%= componentNameConstant %> = 'FAILED_TO_GET_<%= componentNameConstant %>';
-<% } %>
+  'GET_<%= componentNameConstant %>',
+  'SET_<%= componentNameConstant %>',
+  'LOADED_<%= componentNameConstant %>',
+  'FAILED_TO_GET_<%= componentNameConstant %>',
+<% } %>]);
+
+export default actionTypes;
+
 // --- Action creators
 
-export const clickedView<%= componentName %> = () =>
-  reduxUtils.createEvent(CLICKED_VIEW_<%= componentNameConstant %>);
-<% if (includeReducer) { %>
-export const pulledToRefresh = () =>
-  reduxUtils.createEvent(PULLED_TO_REFRESH);
+export class <%= componentName %>Actions {
 
-export const invalidateCache = () =>
-  reduxUtils.createEvent(INVALIDATE_CACHE);
+  static clickedView<%= componentName %> = () =>
+    reduxUtils.createEvent(CLICKED_VIEW_<%= componentNameConstant %>);<% if (includeReducer) { %>
 
-export const get<%= componentName %> = (<%= componentNameCamel %>Link) =>
-  reduxUtils.createAction(GET_<%= componentNameConstant %>, { <%= componentNameCamel %>Link });
+  static pulledToRefresh = () =>
+    reduxUtils.createEvent(PULLED_TO_REFRESH);
 
-export const set<%= componentName %> = (<%= componentNameCamel %>, <%= componentNameCamel %>Link) =>
-  reduxUtils.createAction(SET_<%= componentNameConstant %>, { <%= componentNameCamel %>, <%= componentNameCamel %>Link });
+  static invalidateCache = () =>
+    reduxUtils.createEvent(INVALIDATE_CACHE);
 
-export const loaded<%= componentName %> = () =>
-  reduxUtils.createEvent(LOADED_<%= componentNameConstant %>);
+  static get<%= componentName %> = (<%= componentNameCamel %>Link) =>
+    reduxUtils.createAction(GET_<%= componentNameConstant %>, { <%= componentNameCamel %>Link });
 
-export const failedToGet<%= componentName %> = (error) =>
-  reduxUtils.createEvent(FAILED_TO_GET_<%= componentNameConstant %>, error);<% } %>
+  static set<%= componentName %> = (<%= componentNameCamel %>, <%= componentNameCamel %>Link) =>
+    reduxUtils.createAction(SET_<%= componentNameConstant %>, { <%= componentNameCamel %>, <%= componentNameCamel %>Link });
+
+  static loaded<%= componentName %> = () =>
+    reduxUtils.createEvent(LOADED_<%= componentNameConstant %>);
+
+  static failedToGet<%= componentName %> = (error) =>
+    reduxUtils.createEvent(FAILED_TO_GET_<%= componentNameConstant %>, error);<% } %>
+
+}
