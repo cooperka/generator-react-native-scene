@@ -99,11 +99,11 @@ module.exports = class extends Generator {
       const newReducerPath = `./components/scenes/${componentName}/reducers`;
       this._insertLineBeforeMatch(
         'new-imports-here',
-        `${getIndent(0)}import { ${componentNameCamel}Reducer } from '${newReducerPath}';`,
+        `${getIndent(0)}import { ${componentName}Reducer } from '${newReducerPath}';`,
         reducersPath);
       this._insertLineBeforeMatch(
         'new-reducers-here',
-        `${getIndent(1)}${componentNameCamel}: ${componentNameCamel}Reducer,`,
+        `${getIndent(1)}${componentNameCamel}: ${componentName}Reducer.reduce,`,
         reducersPath);
     }
 
