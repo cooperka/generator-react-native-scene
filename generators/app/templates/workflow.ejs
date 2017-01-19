@@ -4,7 +4,7 @@
 
 import constants from '../../../constants';
 <% if (includeReducer) { %>import apiUtils from '../../../api-utils';
-import appUtils from '../../../app-utils';
+import cacheUtils from '../../../cache-utils';
 
 import { BadResponseError } from '../../../errors';
 <% } %>
@@ -38,7 +38,7 @@ function* performGet<%= componentName %>({ payload: { <%= componentNameCamel %>L
       <%= componentNameCamel %>CacheLink: state.<%= componentNameCamel %>.<%= componentNameCamel %>CacheLink,
     }));
 
-    if (appUtils.isValidCacheData(state.<%= componentNameCamel %>, state.<%= componentNameCamel %>CacheTime)
+    if (cacheUtils.isValidCacheData(state.<%= componentNameCamel %>, state.<%= componentNameCamel %>CacheTime)
       && state.<%= componentNameCamel %>CacheLink === <%= componentNameCamel %>Link) {
       log.info(`Using cached data for ${<%= componentNameCamel %>Link}.`);
       yield put(<%= componentName %>Actions.loaded<%= componentName %>());
