@@ -1,12 +1,12 @@
 {
-  "name": "generator-crib-rn-scene-basic",
-  "version": "0.0.0",
+  "name": "generator-crib-rn-scene",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "prepublish": "gulp prepublish",
     "test": "gulp"
   },
-  "description": "Yeoman generator for a basic scene for a React Native app for Cribspot.",
+  "description": "Yeoman generator for React Native app scenes for Cribspot.",
   "homepage": "",
   "author": {
     "name": "Kevin Cooper",
@@ -53,6 +53,6 @@
       "mocha": true
     }
   },
-  "repository": "https://gitlab.com/cribspot/generator-scene-basic",
+  "repository": "https://gitlab.com/cribspot/generator-crib-rn-scene",
   "license": "MIT"
 }
