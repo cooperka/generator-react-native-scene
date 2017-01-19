@@ -9,7 +9,7 @@ module.exports = class extends Generator {
 
   prompting() {
     this.log(yosay(
-      `Welcome to the astounding ${chalk.red('crib-rn-scene-basic')} generator!`
+      `Welcome to the astounding ${chalk.red('crib-rn-scene')} generator!`
     ));
 
     const prompts = [
