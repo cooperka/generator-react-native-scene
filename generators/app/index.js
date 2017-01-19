@@ -1,11 +1,11 @@
 const path = require('path');
 const glob = require('glob');
-const yeoman = require('yeoman-generator');
+const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
 const changeCase = require('change-case');
 
-module.exports = yeoman.Base.extend({
+module.exports = class extends Generator {
 
   prompting() {
     this.log(yosay(
@@ -58,7 +58,7 @@ module.exports = yeoman.Base.extend({
       this.props.componentNameConstant = changeCase.constantCase(this.props.componentName);
       this.props.componentNameCamel = changeCase.camelCase(this.props.componentName);
     });
-  },
+  }
 
   writing() {
     const {
@@ -86,11 +86,11 @@ module.exports = yeoman.Base.extend({
     const constantsPath = path.join(projectPath, 'src', 'constants.js');
     this._insertLineBeforeMatch(
       'new-sceneKeys-here',
-      `${this._getIndent(2)}${componentNameConstant}: '${componentNameConstant}',`,
+      `${getIndent(2)}${componentNameConstant}: '${componentNameConstant}',`,
       constantsPath);
     this._insertLineBeforeMatch(
       'new-namespaces-here',
-      `${this._getIndent(2)}${componentNameConstant}: '${componentName}',`,
+      `${getIndent(2)}${componentNameConstant}: '${componentName}',`,
       constantsPath);
 
     // Tweak reducers index.
@@ -99,11 +99,11 @@ module.exports = yeoman.Base.extend({
       const newReducerPath = `./components/scenes/${componentName}/reducers`;
       this._insertLineBeforeMatch(
         'new-imports-here',
-        `${this._getIndent(0)}import { ${componentNameCamel}Reducer } from '${newReducerPath}';`,
+        `${getIndent(0)}import { ${componentNameCamel}Reducer } from '${newReducerPath}';`,
         reducersPath);
       this._insertLineBeforeMatch(
         'new-reducers-here',
-        `${this._getIndent(1)}${componentNameCamel}: ${componentNameCamel}Reducer,`,
+        `${getIndent(1)}${componentNameCamel}: ${componentNameCamel}Reducer,`,
         reducersPath);
     }
 
@@ -112,28 +112,30 @@ module.exports = yeoman.Base.extend({
     const newWorkflowPath = `./components/scenes/${componentName}/workflow`;
     this._insertLineBeforeMatch(
       'new-imports-here',
-      `${this._getIndent(0)}import ${componentNameCamel}Workflow from '${newWorkflowPath}';`,
+      `${getIndent(0)}import ${componentNameCamel}Workflow from '${newWorkflowPath}';`,
       workflowsPath);
     this._insertLineBeforeMatch(
       'new-workflows-here',
-      `${this._getIndent(2)}${componentNameCamel}Workflow(),`,
+      `${getIndent(2)}${componentNameCamel}Workflow(),`,
       workflowsPath);
 
     // Tweak route list.
     const routerPath = path.join(projectPath, 'src', 'app-utils.js');
     this._insertLineBeforeMatch(
       'new-imports-here',
-      `${this._getIndent(4)}require('./components/scenes/${componentName}/index').default,`,
+      `${getIndent(4)}require('./components/scenes/${componentName}/index').default,`,
       routerPath);
-  },
-
-  /** Indent 2 spaces per tab, escaping spaces for `sed`. */
-  _getIndent: (numTabs) => '\\ '.repeat(numTabs * 2),
+  }
 
   // TODO: Fix -i flag so it works on regular linux. Empty string is required to make it work on OSX.
   /** Spawn a shell command that inserts lineToAdd directly after the matched text, followed by a newline. */
   _insertLineBeforeMatch(matcher, lineToAdd, filePath) {
     this.spawnCommand('sed', ['-i', '', `/${matcher}/i\\\n${lineToAdd}\n`, filePath]);
-  },
+  }
 
-});
+};
+
+/** Indent 2 spaces per tab, escaping spaces for `sed`. */
+function getIndent(numTabs) {
+  return '\\ '.repeat(numTabs * 2);
+}
