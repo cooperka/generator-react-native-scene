@@ -2,57 +2,65 @@ import Immutable from 'immutable';
 
 import appUtils from '../../../app-utils';
 
-import * as <%= componentNameCamel %>Actions from './actions';
+import <%= componentNameCamel %>ActionTypes from './actions';
 
-const initialState = {
-  <%= componentNameCamel %>: {
+export class <%= componentName %>Reducer {
+
+  static initialState = {
     isLoading: false,
     <%= componentNameCamel %>: Immutable.List(),
     <%= componentNameCamel %>CacheTime: undefined,
     <%= componentNameCamel %>CacheLink: undefined,
     errorMsg: undefined,
-  },
-};
+  };
 
-export function <%= componentNameCamel %>Reducer(state = initialState.<%= componentNameCamel %>, { type, payload }) {
-  switch (type) {
-    case <%= componentNameCamel %>Actions.INVALIDATE_CACHE:
-      return {
-        ...state,
-        <%= componentNameCamel %>CacheTime: null,
-      };
-
-    case <%= componentNameCamel %>Actions.GET_<%= componentNameConstant %>:
-      return {
-        ...state,
-        isLoading: true,
-        errorMsg: null,
-      };
-
-    case <%= componentNameCamel %>Actions.SET_<%= componentNameConstant %>:
-      return {
-        ...state,
-        <%= componentNameCamel %>: payload.<%= componentNameCamel %>,
-        <%= componentNameCamel %>CacheTime: Date.now(),
-        <%= componentNameCamel %>CacheLink: payload.<%= componentNameCamel %>Link,
-      };
-
-    case <%= componentNameCamel %>Actions.LOADED_<%= componentNameConstant %>:
-      return {
-        ...state,
-        isLoading: false,
-      };
-
-    case <%= componentNameCamel %>Actions.FAILED_TO_GET_<%= componentNameConstant %>:
-      return {
-        ...state,
-        isLoading: false,
-        <%= componentNameCamel %>: initialState.<%= componentNameCamel %>.<%= componentNameCamel %>,
-        <%= componentNameCamel %>CacheTime: undefined,
-        errorMsg: appUtils.getDisplayStringFromError(payload),
-      };
-
-    default:
+  static reduce(state = <%= componentName %>Reducer.initialState, { type, payload }) {
+    if (!<%= componentName %>Reducer[type]) {
       return state;
+    }
+
+    return <%= componentName %>Reducer[type](state, payload);
   }
+
+  static [<%= componentNameCamel %>ActionTypes.INVALIDATE_CACHE](state) {
+    return {
+      ...state,
+      <%= componentNameCamel %>CacheTime: null,
+    };
+  }
+
+  static [<%= componentNameCamel %>ActionTypes.GET_<%= componentNameConstant %>](state) {
+    return {
+      ...state,
+      isLoading: true,
+      errorMsg: null,
+    };
+  }
+
+  static [<%= componentNameCamel %>ActionTypes.SET_<%= componentNameConstant %>](state, payload) {
+    return {
+      ...state,
+      <%= componentNameCamel %>: payload.<%= componentNameCamel %>,
+      <%= componentNameCamel %>CacheTime: Date.now(),
+      <%= componentNameCamel %>CacheLink: payload.<%= componentNameCamel %>Link,
+    };
+  }
+
+  static [<%= componentNameCamel %>ActionTypes.LOADED_<%= componentNameConstant %>](state) {
+    return {
+      ...state,
+      isLoading: false,
+    };
+  }
+
+  static [<%= componentNameCamel %>ActionTypes.FAILED_TO_GET_<%= componentNameConstant %>](state, payload) {
+    return {
+      ...state,
+      isLoading: false,
+      <%= componentNameCamel %>: <%= componentName %>Reducer.initialState.<%= componentNameCamel %>,
+      <%= componentNameCamel %>CacheTime: undefined,
+      errorMsg: appUtils.getDisplayStringFromError(payload),
+    };
+  }
+
 }
