@@ -747,6 +747,10 @@ eslint-config-airbnb@^14.0.0:
   dependencies:
     eslint-config-airbnb-base "^11.0.1"
 
+eslint-config-cooperka@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/eslint-config-cooperka/-/eslint-config-cooperka-0.2.4.tgz#db5539f4d295fe75178f14f50b4027fc9df73dc7"
+
 eslint-config-xo-space@^0.15.0:
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/eslint-config-xo-space/-/eslint-config-xo-space-0.15.0.tgz#1174a376c159afd03295d5a1ca9c488fb5379cd0"

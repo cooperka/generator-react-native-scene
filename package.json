@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "prepublish": "gulp prepublish",
-    "test": "gulp"
+    "test": "gulp",
+    "lint": "eslint . --ext .js,.jsx"
   },
   "description": "Yeoman generator for React Native app scenes for Cribspot.",
   "homepage": "",
@@ -32,6 +33,7 @@
   "devDependencies": {
     "eslint": "^3.13.1",
     "eslint-config-airbnb": "^14.0.0",
+    "eslint-config-cooperka": "^0.2.4",
     "eslint-config-xo-space": "^0.15.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^3.0.2",
