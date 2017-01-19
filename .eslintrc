@@ -7,6 +7,15 @@
 
   "rules": {
     // Necessary for Yeoman private methods.
-    "no-underscore-dangle": 0
+    "no-underscore-dangle": 0,
+
+    // Yeoman apparently can't handle these in functions.
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "ignore"
+    }]
   }
 }

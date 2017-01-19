@@ -7,7 +7,7 @@ const changeCase = require('change-case');
 
 module.exports = yeoman.Base.extend({
 
-  prompting: function () {
+  prompting() {
     this.log(yosay(
       `Welcome to the astounding ${chalk.red('crib-rn-scene-basic')} generator!`
     ));
@@ -60,7 +60,7 @@ module.exports = yeoman.Base.extend({
     });
   },
 
-  writing: function () {
+  writing() {
     const {
       projectPath, componentPath, componentName, componentNameConstant, componentNameCamel,
       includeReducer,
@@ -132,7 +132,7 @@ module.exports = yeoman.Base.extend({
 
   // TODO: Fix -i flag so it works on regular linux. Empty string is required to make it work on OSX.
   /** Spawn a shell command that inserts lineToAdd directly after the matched text, followed by a newline. */
-  _insertLineBeforeMatch: function (matcher, lineToAdd, filePath) {
+  _insertLineBeforeMatch(matcher, lineToAdd, filePath) {
     this.spawnCommand('sed', ['-i', '', `/${matcher}/i\\\n${lineToAdd}\n`, filePath]);
   },
 
