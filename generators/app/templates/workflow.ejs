@@ -61,7 +61,7 @@ function* performGet<%= componentName %>({ payload: { <%= componentNameCamel %>L
 }
 <% } %>
 export default function* rootSaga() {
-  yield fork(takeLatest, <%= componentNameCamel %>ActionTypes.CLICKED_VIEW_<%= componentNameConstant %>, performShowScene);
+  yield fork(takeLatest, <%= componentNameCamel %>ActionTypes.CLICKED_VIEW_SCENE, performShowScene);
 <% if (includeReducer) { %>  yield fork(takeLatest, <%= componentNameCamel %>ActionTypes.PULLED_TO_REFRESH, performRefreshData);
   yield fork(takeLatest, <%= componentNameCamel %>ActionTypes.GET_<%= componentNameConstant %>, performGet<%= componentName %>);
 <% } %>}

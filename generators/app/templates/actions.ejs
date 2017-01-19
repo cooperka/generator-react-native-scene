@@ -4,11 +4,11 @@ import reduxUtils from '../../../redux-utils';
 // --- Action types
 
 const actionTypes = reduxUtils.createActionTypes(constants.namespace.<%= componentNameConstant %>, [
-  'CLICKED_VIEW_<%= componentNameConstant %>',
+  'CLICKED_VIEW_SCENE',
 <% if (includeReducer) { %>
-  'PULLED_TO_REFRESH_<%= componentNameConstant %>',
+  'PULLED_TO_REFRESH',
 
-  'INVALIDATE_CACHE_<%= componentNameConstant %>',
+  'INVALIDATE_CACHE',
 
   'GET_<%= componentNameConstant %>',
   'SET_<%= componentNameConstant %>',
@@ -22,25 +22,25 @@ export default actionTypes;
 
 export class <%= componentName %>Actions {
 
-  static clickedView<%= componentName %> = () =>
-    reduxUtils.createEvent(CLICKED_VIEW_<%= componentNameConstant %>);<% if (includeReducer) { %>
+  static clickedViewScene = () =>
+    reduxUtils.createEvent(actionTypes.CLICKED_VIEW_SCENE);<% if (includeReducer) { %>
 
   static pulledToRefresh = () =>
-    reduxUtils.createEvent(PULLED_TO_REFRESH);
+    reduxUtils.createEvent(actionTypes.PULLED_TO_REFRESH);
 
   static invalidateCache = () =>
-    reduxUtils.createEvent(INVALIDATE_CACHE);
+    reduxUtils.createEvent(actionTypes.INVALIDATE_CACHE);
 
   static get<%= componentName %> = (<%= componentNameCamel %>Link) =>
-    reduxUtils.createAction(GET_<%= componentNameConstant %>, { <%= componentNameCamel %>Link });
+    reduxUtils.createAction(actionTypes.GET_<%= componentNameConstant %>, { <%= componentNameCamel %>Link });
 
   static set<%= componentName %> = (<%= componentNameCamel %>, <%= componentNameCamel %>Link) =>
-    reduxUtils.createAction(SET_<%= componentNameConstant %>, { <%= componentNameCamel %>, <%= componentNameCamel %>Link });
+    reduxUtils.createAction(actionTypes.SET_<%= componentNameConstant %>, { <%= componentNameCamel %>, <%= componentNameCamel %>Link });
 
   static loaded<%= componentName %> = () =>
-    reduxUtils.createEvent(LOADED_<%= componentNameConstant %>);
+    reduxUtils.createEvent(actionTypes.LOADED_<%= componentNameConstant %>);
 
   static failedToGet<%= componentName %> = (error) =>
-    reduxUtils.createEvent(FAILED_TO_GET_<%= componentNameConstant %>, error);<% } %>
+    reduxUtils.createEvent(actionTypes.FAILED_TO_GET_<%= componentNameConstant %>, error);<% } %>
 
 }
