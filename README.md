@@ -1,22 +1,23 @@
-# generator -- cribspot react-native scene basic
+# Generator for React Native scenes
 
-> Yeoman generator for a basic scene for a React Native app for Cribspot.
+Yeoman generator for React Native app scenes for Cribspot.
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-crib-rn-scene-basic (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and `generator-crib-rn-scene`
+(assuming you already have [node.js](https://nodejs.org/)):
 
 ```bash
 npm install -g yo
-git clone https://gitlab.com/cribspot/generator-crib-rn-scene-basic.git
-cd generator-crib-rn-scene-basic
+git clone https://gitlab.com/cribspot/generator-crib-rn-scene.git
+cd generator-crib-rn-scene
 npm link
 ```
 
-Then generate your new project wherever you want:
+Then run the generator wherever you want and follow the prompts:
 
 ```bash
-yo crib-rn-scene-basic
+yo crib-rn-scene
 ```
 
 ## Getting To Know Yeoman
