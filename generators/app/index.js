@@ -93,13 +93,13 @@ module.exports = class extends Generator {
       `${getIndent(2)}${componentNameConstant}: '${componentName}',`,
       constantsPath);
 
-    // Tweak reducers index.
     if (includeReducer) {
+      // Tweak reducers index.
       const reducersPath = path.join(projectPath, 'src', 'reducers.index.js');
       const reducerImportPath = `./components/scenes/${componentName}/reducers`;
       this._insertLineBeforeMatch(
         'new-imports-here',
-        `${getIndent(0)}import { ${componentName}Reducer } from '${reducerImportPath}';`,
+        `import { ${componentName}Reducer } from '${reducerImportPath}';`,
         reducersPath);
       this._insertLineBeforeMatch(
         'new-reducers-here',
@@ -112,7 +112,7 @@ module.exports = class extends Generator {
     const workflowImportPath = `./components/scenes/${componentName}/workflow`;
     this._insertLineBeforeMatch(
       'new-imports-here',
-      `${getIndent(0)}import ${componentNameCamel}Workflow from '${workflowImportPath}';`,
+      `import ${componentNameCamel}Workflow from '${workflowImportPath}';`,
       workflowsPath);
     this._insertLineBeforeMatch(
       'new-workflows-here',
@@ -125,6 +125,48 @@ module.exports = class extends Generator {
       'new-imports-here',
       `${getIndent(4)}require('./components/scenes/${componentName}/index').default,`,
       routerPath);
+
+    if (includeReducer) {
+      // Tweak populatedState.
+      const populatedStatePath = path.join(projectPath, 'src/mock-data/states/populatedState.js');
+      this._insertLineBeforeMatch(
+        'new-actions-here',
+        `import { ${componentName}Actions } from '../../components/scenes/${componentName}/actions';`,
+        populatedStatePath);
+      this._insertLineBeforeMatch(
+        'new-data-here',
+        `import { mock${componentName} } from '../responses/mock${componentName}';`,
+        populatedStatePath);
+      this._insertLineBeforeMatch(
+        'new-reducers-here',
+        `populatedState.${componentNameCamel} = reducersMap.${componentNameCamel}(undefined, ${componentName}Actions.set${componentName}Data(mock${componentName}, '/link'));`,
+        populatedStatePath);
+      this._insertBlankLineBeforeMatch('new-reducers-here', populatedStatePath);
+
+      // Tweak loadingState.
+      const loadingStatePath = path.join(projectPath, 'src/mock-data/states/loadingState.js');
+      this._insertLineBeforeMatch(
+        'new-actions-here',
+        `import { ${componentName}Actions } from '../../components/scenes/${componentName}/actions';`,
+        loadingStatePath);
+      this._insertLineBeforeMatch(
+        'new-reducers-here',
+        `loadingState.${componentNameCamel} = reducersMap.${componentNameCamel}(undefined, ${componentName}Actions.get${componentName}Data());`,
+        loadingStatePath);
+      this._insertBlankLineBeforeMatch('new-reducers-here', loadingStatePath);
+
+      // Tweak errorState.
+      const errorStatePath = path.join(projectPath, 'src/mock-data/states/errorState.js');
+      this._insertLineBeforeMatch(
+        'new-actions-here',
+        `import { ${componentName}Actions } from '../../components/scenes/${componentName}/actions';`,
+        errorStatePath);
+      this._insertLineBeforeMatch(
+        'new-reducers-here',
+        `errorState.${componentNameCamel} = reducersMap.${componentNameCamel}(undefined, ${componentName}Actions.failedToGet${componentName}Data(error));`,
+        errorStatePath);
+      this._insertBlankLineBeforeMatch('new-reducers-here', errorStatePath);
+    }
   }
 
   // --- Replacers.
