@@ -3,18 +3,18 @@ import reduxUtils from '../../../redux-utils';
 
 // --- Action types
 
-const actionTypes = reduxUtils.createActionTypes(constants.namespace.<%= componentNameConstant %>, [
-  'CLICKED_VIEW_SCENE',
+const actionTypes = reduxUtils.createActionTypes(constants.namespace.<%= componentNameConstant %>, {
+  CLICKED_VIEW_SCENE: null,
 <% if (includeReducer) { %>
-  'PULLED_TO_REFRESH',
+  PULLED_TO_REFRESH: null,
 
-  'INVALIDATE_CACHE',
+  INVALIDATE_CACHE: null,
 
-  'GET_<%= componentNameConstant %>',
-  'SET_<%= componentNameConstant %>',
-  'LOADED_<%= componentNameConstant %>',
-  'FAILED_TO_GET_<%= componentNameConstant %>',
-<% } %>]);
+  GET_<%= componentNameConstant %>: null,
+  SET_<%= componentNameConstant %>: null,
+  LOADED_<%= componentNameConstant %>: null,
+  FAILED_TO_GET_<%= componentNameConstant %>: null,
+<% } %>});
 
 export default actionTypes;
 
