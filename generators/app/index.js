@@ -127,10 +127,23 @@ module.exports = class extends Generator {
       routerPath);
   }
 
-  // TODO: Fix -i flag so it works on regular linux. Empty string is required to make it work on OSX.
-  /** Spawn a shell command that inserts lineToAdd directly after the matched text, followed by a newline. */
+  // --- Replacers.
+  //
+  // Note: These commands require `gsed` (GNU-sed) to be installed, for cross-platform compatibility.
+  // You can use `brew install gnu-sed`, or `alias gsed=sed` if you're already using it.
+  //
+  // More `sed` info here:
+  // http://www.grymoire.com/Unix/Sed.html
+  // http://sed.sourceforge.net/sed1line.txt
+
+  /** Spawn a shell command that inserts lineToAdd directly above the matched text, followed by a newline. */
   _insertLineBeforeMatch(matcher, lineToAdd, filePath) {
-    this.spawnCommand('sed', ['-i', '', `/${matcher}/i\\\n${lineToAdd}\n`, filePath]);
+    this.spawnCommand('gsed', ['-i', `/${matcher}/ i ${lineToAdd}`, filePath]);
+  }
+
+  /** Spawn a shell command that inserts a blank line directly above the matched text. */
+  _insertBlankLineBeforeMatch(matcher, filePath) {
+    this.spawnCommand('gsed', ['-i', `/${matcher}/ {x;p;x;}`, filePath]);
   }
 
 };
