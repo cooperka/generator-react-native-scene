@@ -17,7 +17,7 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'projectPath',
         message: 'Absolute path to your React Native project',
-        default: '/Users/klap-hotel/Dev/cribspot/home-app/',
+        default: '/Users/klap-hotel/Dev/cribspot/apps/home-app/',
       },
       {
         type: 'input',
@@ -96,10 +96,10 @@ module.exports = class extends Generator {
     // Tweak reducers index.
     if (includeReducer) {
       const reducersPath = path.join(projectPath, 'src', 'reducers.index.js');
-      const newReducerPath = `./components/scenes/${componentName}/reducers`;
+      const reducerImportPath = `./components/scenes/${componentName}/reducers`;
       this._insertLineBeforeMatch(
         'new-imports-here',
-        `${getIndent(0)}import { ${componentName}Reducer } from '${newReducerPath}';`,
+        `${getIndent(0)}import { ${componentName}Reducer } from '${reducerImportPath}';`,
         reducersPath);
       this._insertLineBeforeMatch(
         'new-reducers-here',
@@ -109,10 +109,10 @@ module.exports = class extends Generator {
 
     // Tweak workflows index.
     const workflowsPath = path.join(projectPath, 'src', 'workflows.index.js');
-    const newWorkflowPath = `./components/scenes/${componentName}/workflow`;
+    const workflowImportPath = `./components/scenes/${componentName}/workflow`;
     this._insertLineBeforeMatch(
       'new-imports-here',
-      `${getIndent(0)}import ${componentNameCamel}Workflow from '${newWorkflowPath}';`,
+      `${getIndent(0)}import ${componentNameCamel}Workflow from '${workflowImportPath}';`,
       workflowsPath);
     this._insertLineBeforeMatch(
       'new-workflows-here',

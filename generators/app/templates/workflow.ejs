@@ -1,12 +1,11 @@
-<% if (includeReducer) { %>import Immutable from 'immutable';
+<% if (includeReducer) { %>import Immutable from 'immutable';<% } %>
+import { <% if (includeReducer) { %>select, call, <% } %>put, fork, takeLatest } from 'redux-saga/effects';
+<% if (includeReducer) { %>
+import { BadResponseError } from 'cribspot-core/src/errors';
 
-<% } %>import { <% if (includeReducer) { %>select, call, <% } %>put, fork, takeLatest } from 'redux-saga/effects';
-
-import constants from '../../../constants';
+<% } %>import constants from '../../../constants';
 <% if (includeReducer) { %>import apiUtils from '../../../api-utils';
 import cacheUtils from '../../../cache-utils';
-
-import { BadResponseError } from '../../../errors';
 <% } %>
 import { NavigationActions } from '../../navigation/actions';
 import <%= componentNameCamel %>ActionTypes, { <%= componentName %>Actions } from './actions';
