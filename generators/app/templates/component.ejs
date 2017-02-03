@@ -16,7 +16,6 @@ import instrumentScene from '../../InstrumentedScene';
 class <%= componentName %> extends Component {
 
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
   };
 
   static mapStateToProps(state) {
@@ -25,7 +24,7 @@ class <%= componentName %> extends Component {
 
   static mapDispatchToProps(dispatch) {
     return {
-      doSomething: () => {},
+      doSomething() {},
     };
   }
 
