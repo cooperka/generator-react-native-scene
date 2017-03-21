@@ -9,8 +9,6 @@ const actionTypes = reduxUtils.createActionTypes(constants.namespace.<%= compone
 <% if (includeReducer) { %>
   PULLED_TO_REFRESH: null,
 
-  INVALIDATE_CACHE: null,
-
   GET_<%= componentNameConstant %>: null,
   SET_<%= componentNameConstant %>: null,
   LOADED_<%= componentNameConstant %>: null,
@@ -29,11 +27,8 @@ export class <%= componentName %>Actions {
   static pulledToRefresh = () =>
     reduxUtils.createEvent(actionTypes.PULLED_TO_REFRESH);
 
-  static invalidateCache = () =>
-    reduxUtils.createEvent(actionTypes.INVALIDATE_CACHE);
-
-  static get<%= componentName %> = (<%= componentNameCamel %>Link) =>
-    reduxUtils.createAction(actionTypes.GET_<%= componentNameConstant %>, { <%= componentNameCamel %>Link });
+  static get<%= componentName %> = (<%= componentNameCamel %>Link, invalidateCache = false) =>
+    reduxUtils.createAction(actionTypes.GET_<%= componentNameConstant %>, { <%= componentNameCamel %>Link, invalidateCache });
 
   static set<%= componentName %> = (<%= componentNameCamel %>, <%= componentNameCamel %>Link) =>
     reduxUtils.createAction(actionTypes.SET_<%= componentNameConstant %>, { <%= componentNameCamel %>, <%= componentNameCamel %>Link });

@@ -4,9 +4,7 @@ import { <% if (includeReducer) { %>select, call, <% } %>put, fork, takeLatest }
 import { BadResponseError } from 'cribspot-core/src/errors';
 
 <% } %>import constants from '../../../constants';
-<% if (includeReducer) { %>import apiUtils from '../../../api-utils';
-import cacheUtils from '../../../cache-utils';
-<% } %>
+
 import { NavigationActions } from '../../navigation/actions';
 import <%= componentNameCamel %>ActionTypes, { <%= componentName %>Actions } from './actions';
 <% if (includeReducer) { %>
@@ -28,24 +26,13 @@ function* performRefreshData() {
   yield put(<%= componentName %>Actions.get<%= componentName %>(<%= componentNameCamel %>CacheLink));
 }
 
-function* performGet<%= componentName %>({ payload: { <%= componentNameCamel %>Link } }) {
+function* performGet<%= componentName %>({ payload: { <%= componentNameCamel %>Link, invalidateCache } }) {
   try {
-    const state = yield select((state) => ({
+    const { authData } = yield select((state) => ({
       authData: state.userAuthData.authData,
-      <%= componentNameCamel %>: state.<%= componentNameCamel %>.<%= componentNameCamel %>,
-      <%= componentNameCamel %>CacheTime: state.<%= componentNameCamel %>.<%= componentNameCamel %>CacheTime,
-      <%= componentNameCamel %>CacheLink: state.<%= componentNameCamel %>.<%= componentNameCamel %>CacheLink,
     }));
 
-    if (cacheUtils.isValidCacheData(state.<%= componentNameCamel %>, state.<%= componentNameCamel %>CacheTime)
-      && state.<%= componentNameCamel %>CacheLink === <%= componentNameCamel %>Link) {
-      log.info(`Using cached data for ${<%= componentNameCamel %>Link}.`);
-      yield put(<%= componentName %>Actions.loaded<%= componentName %>());
-      return;
-    }
-
-    const response = yield call(<%= componentNameCamel %>Source.fetch<%= componentName %>, state.authData, <%= componentNameCamel %>Link);
-    const responseData = yield apiUtils.getJsonFromValidResponse(response);
+    const responseData = yield call(<%= componentNameCamel %>Source.fetch<%= componentName %>, authData, <%= componentNameCamel %>Link, invalidateCache);
     const <%= componentNameCamel %> = responseData && responseData.<%= componentNameCamel %>;
 
     if (!<%= componentNameCamel %>) {

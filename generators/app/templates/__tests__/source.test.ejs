@@ -3,8 +3,8 @@ import { mockAuthData } from '../../../../mock-data/responses';
 import source from '../source';
 
 describe('<%= componentName %> source', () => {
-  it('fetches with the correct params', () => {
-    const result = source.fetch<%= componentName %>(mockAuthData, '/path');
-    expect(result).toMatchSnapshot();
+  it('fetches with the correct params', async () => {
+    const responseData = await source.fetch<%= componentName %>(mockAuthData, '/path');
+    expect(responseData).toMatchSnapshot();
   });
 });
