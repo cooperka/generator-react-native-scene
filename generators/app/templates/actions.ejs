@@ -9,10 +9,7 @@ const actionTypes = reduxUtils.createActionTypes(constants.namespace.<%= compone
 <% if (includeReducer) { %>
   PULLED_TO_REFRESH: null,
 
-  GET_<%= componentNameConstant %>: null,
-  SET_<%= componentNameConstant %>: null,
-  LOADED_<%= componentNameConstant %>: null,
-  FAILED_TO_GET_<%= componentNameConstant %>: null,
+  ...reduxUtils.FETCH_ACTION_TYPES,
 <% } %>});
 
 export default actionTypes;
@@ -28,15 +25,15 @@ export class <%= componentName %>Actions {
     reduxUtils.createEvent(actionTypes.PULLED_TO_REFRESH);
 
   static get<%= componentName %> = (<%= componentNameCamel %>Link, invalidateCache = false) =>
-    reduxUtils.createAction(actionTypes.GET_<%= componentNameConstant %>, { <%= componentNameCamel %>Link, invalidateCache });
+    reduxUtils.createAction(actionTypes.GET, { <%= componentNameCamel %>Link, invalidateCache });
 
   static set<%= componentName %> = (<%= componentNameCamel %>, <%= componentNameCamel %>Link) =>
-    reduxUtils.createAction(actionTypes.SET_<%= componentNameConstant %>, { <%= componentNameCamel %>, <%= componentNameCamel %>Link });
+    reduxUtils.createAction(actionTypes.SET, { <%= componentNameCamel %>, <%= componentNameCamel %>Link });
 
   static loaded<%= componentName %> = () =>
-    reduxUtils.createEvent(actionTypes.LOADED_<%= componentNameConstant %>);
+    reduxUtils.createEvent(actionTypes.LOADED);
 
   static failedToGet<%= componentName %> = (error) =>
-    reduxUtils.createEvent(actionTypes.FAILED_TO_GET_<%= componentNameConstant %>, error);<% } %>
+    reduxUtils.createEvent(actionTypes.FAILED_TO_GET, error);<% } %>
 
 }

@@ -21,7 +21,7 @@ export class <%= componentName %>Reducer {
     return <%= componentName %>Reducer[type](state, payload);
   }
 
-  static [<%= componentNameCamel %>ActionTypes.GET_<%= componentNameConstant %>](state) {
+  static [<%= componentNameCamel %>ActionTypes.GET](state) {
     return {
       ...state,
       isLoading: true,
@@ -29,7 +29,7 @@ export class <%= componentName %>Reducer {
     };
   }
 
-  static [<%= componentNameCamel %>ActionTypes.SET_<%= componentNameConstant %>](state, payload) {
+  static [<%= componentNameCamel %>ActionTypes.SET](state, payload) {
     return {
       ...state,
       <%= componentNameCamel %>: payload.<%= componentNameCamel %>,
@@ -37,14 +37,14 @@ export class <%= componentName %>Reducer {
     };
   }
 
-  static [<%= componentNameCamel %>ActionTypes.LOADED_<%= componentNameConstant %>](state) {
+  static [<%= componentNameCamel %>ActionTypes.LOADED](state) {
     return {
       ...state,
       isLoading: false,
     };
   }
 
-  static [<%= componentNameCamel %>ActionTypes.FAILED_TO_GET_<%= componentNameConstant %>](state, payload) {
+  static [<%= componentNameCamel %>ActionTypes.FAILED_TO_GET](state, payload) {
     return {
       ...state,
       isLoading: false,
