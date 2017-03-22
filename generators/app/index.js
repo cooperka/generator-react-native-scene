@@ -139,7 +139,7 @@ module.exports = class extends Generator {
         populatedStatePath);
       this._insertLineBeforeMatch(
         'new-reducers-here',
-        `populatedState.${componentNameCamel} = reducersMap.${componentNameCamel}(undefined, ${componentName}Actions.set${componentName}Data(mock${componentName}, '/link'));`,
+        `populatedState.${componentNameCamel} = reducersMap.${componentNameCamel}(undefined, ${componentName}Actions.set(mock${componentName}, '/link'));`,
         populatedStatePath);
       this._insertBlankLineBeforeMatch('new-reducers-here', populatedStatePath);
 
@@ -151,7 +151,7 @@ module.exports = class extends Generator {
         loadingStatePath);
       this._insertLineBeforeMatch(
         'new-reducers-here',
-        `loadingState.${componentNameCamel} = reducersMap.${componentNameCamel}(undefined, ${componentName}Actions.get${componentName}Data());`,
+        `loadingState.${componentNameCamel} = reducersMap.${componentNameCamel}(undefined, ${componentName}Actions.get());`,
         loadingStatePath);
       this._insertBlankLineBeforeMatch('new-reducers-here', loadingStatePath);
 
@@ -163,7 +163,7 @@ module.exports = class extends Generator {
         errorStatePath);
       this._insertLineBeforeMatch(
         'new-reducers-here',
-        `errorState.${componentNameCamel} = reducersMap.${componentNameCamel}(undefined, ${componentName}Actions.failedToGet${componentName}Data(error));`,
+        `errorState.${componentNameCamel} = reducersMap.${componentNameCamel}(undefined, ${componentName}Actions.failedToGet(error));`,
         errorStatePath);
       this._insertBlankLineBeforeMatch('new-reducers-here', errorStatePath);
     }

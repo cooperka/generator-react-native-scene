@@ -23,7 +23,7 @@ function* performRefreshData() {
   if (isLoading) return;
 
   yield put(<%= componentName %>Actions.invalidateCache());
-  yield put(<%= componentName %>Actions.get<%= componentName %>(<%= componentNameCamel %>CacheLink));
+  yield put(<%= componentName %>Actions.get(<%= componentNameCamel %>CacheLink));
 }
 
 function* performGet<%= componentName %>({ payload: { <%= componentNameCamel %>Link, invalidateCache } }) {
@@ -39,10 +39,10 @@ function* performGet<%= componentName %>({ payload: { <%= componentNameCamel %>L
       throw new BadResponseError('<%= componentNameCamel %>', responseData);
     }
 
-    yield put(<%= componentName %>Actions.set<%= componentName %>(Immutable.fromJS(<%= componentNameCamel %>), <%= componentNameCamel %>Link));
-    yield put(<%= componentName %>Actions.loaded<%= componentName %>());
+    yield put(<%= componentName %>Actions.set(Immutable.fromJS(<%= componentNameCamel %>), <%= componentNameCamel %>Link));
+    yield put(<%= componentName %>Actions.loaded());
   } catch (error) {
-    yield put(<%= componentName %>Actions.failedToGet<%= componentName %>(error));
+    yield put(<%= componentName %>Actions.failedToGet(error));
   }
 }
 <% } %>

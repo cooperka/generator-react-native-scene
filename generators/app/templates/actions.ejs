@@ -24,16 +24,16 @@ export class <%= componentName %>Actions {
   static pulledToRefresh = () =>
     reduxUtils.createEvent(actionTypes.PULLED_TO_REFRESH);
 
-  static get<%= componentName %> = (<%= componentNameCamel %>Link, invalidateCache = false) =>
+  static get = (<%= componentNameCamel %>Link, invalidateCache = false) =>
     reduxUtils.createAction(actionTypes.GET, { <%= componentNameCamel %>Link, invalidateCache });
 
-  static set<%= componentName %> = (<%= componentNameCamel %>, <%= componentNameCamel %>Link) =>
+  static set = (<%= componentNameCamel %>, <%= componentNameCamel %>Link) =>
     reduxUtils.createAction(actionTypes.SET, { <%= componentNameCamel %>, <%= componentNameCamel %>Link });
 
-  static loaded<%= componentName %> = () =>
+  static loaded = () =>
     reduxUtils.createEvent(actionTypes.LOADED);
 
-  static failedToGet<%= componentName %> = (error) =>
+  static failedToGet = (error) =>
     reduxUtils.createEvent(actionTypes.FAILED_TO_GET, error);<% } %>
 
 }
