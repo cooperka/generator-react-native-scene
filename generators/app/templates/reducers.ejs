@@ -21,10 +21,13 @@ export class <%= componentName %>Reducer {
     return <%= componentName %>Reducer[type](state, payload);
   }
 
-  static [<%= componentNameCamel %>ActionTypes.GET](state) {
+  static [<%= componentNameCamel %>ActionTypes.GET](state, payload) {
     return {
       ...state,
       isLoading: true,
+      <%= componentNameCamel %>: (payload.<%= componentNameCamel %>Link === state.<%= componentNameCamel %>CacheLink
+        ? state.<%= componentNameCamel %>
+        : <%= componentName %>Reducer.initialState.<%= componentNameCamel %>),
       errorMsg: null,
     };
   }
