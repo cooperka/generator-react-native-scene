@@ -22,8 +22,7 @@ function* performRefreshData() {
 
   if (isLoading) return;
 
-  yield put(<%= componentName %>Actions.invalidateCache());
-  yield put(<%= componentName %>Actions.get(<%= componentNameCamel %>CacheLink));
+  yield put(<%= componentName %>Actions.get(<%= componentNameCamel %>CacheLink, true));
 }
 
 function* performGet<%= componentName %>({ payload: { <%= componentNameCamel %>Link, invalidateCache } }) {
