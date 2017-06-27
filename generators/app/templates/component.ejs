@@ -1,14 +1,14 @@
 'use extensible';
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { View } from 'react-native';
+
+import { withInstrumentation } from 'cribspot-core/src/components/Instrumentation';
 
 import constants from '../../../constants';
 import { lightTheme as style } from '../../../styles';
 
 import { TextOnLight as Text } from '../../semanticUi';
-import InfoMessage from '../../InfoMessage';
-import instrumentScene from '../../InstrumentedScene';
 
 /**
  * <%= description %>
@@ -18,11 +18,11 @@ class <%= componentName %> extends Component {
   static propTypes = {
   };
 
-  static mapStateToProps(state) {
+  static mapStateToProps() {
     return {};
   }
 
-  static mapDispatchToProps(dispatch) {
+  static mapDispatchToProps() {
     return {
       doSomething() {},
     };
@@ -46,4 +46,4 @@ class <%= componentName %> extends Component {
 
 }
 
-export default instrumentScene(<%= componentName %>);
+export default withInstrumentation(<%= componentName %>);
