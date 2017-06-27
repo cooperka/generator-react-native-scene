@@ -1,6 +1,7 @@
 <% if (includeReducer) { %>import Immutable from 'immutable';<% } %>
 import { <% if (includeReducer) { %>select, call, <% } %>put, fork, takeLatest } from 'redux-saga/effects';
 <% if (includeReducer) { %>
+import navigationActionTypes from 'cribspot-core/src/components/navigation/actions';
 import { BadResponseError } from 'cribspot-core/src/errors';
 
 <% } %>import constants from '../../../constants';
@@ -14,6 +15,19 @@ function* performShowScene() {
   yield put(NavigationActions.push(constants.sceneKey.<%= componentNameConstant %>));
 }
 <% if (includeReducer) { %>
+function* onFocusScene() {
+  const { isLoading, <%= componentNameCamel %>, <%= componentNameCamel %>CacheLink } = yield select((state) => ({
+    isLoading: state.<%= componentNameCamel %>.isLoading,
+    <%= componentNameCamel %>: state.<%= componentNameCamel %>.<%= componentNameCamel %>,
+    <%= componentNameCamel %>CacheLink: state.<%= componentNameCamel %>.<%= componentNameCamel %>CacheLink,
+  }));
+
+  // Don't load anything if there's already some data.
+  if (isLoading || (<%= componentNameCamel %> && !<%= componentNameCamel %>.isEmpty())) return;
+
+  yield put(<%= componentName %>Actions.get(<%= componentNameCamel %>CacheLink));
+}
+
 function* performRefreshData() {
   const { isLoading, <%= componentNameCamel %>CacheLink } = yield select((state) => ({
     isLoading: state.<%= componentNameCamel %>.isLoading,
@@ -47,6 +61,7 @@ function* performGet<%= componentName %>({ payload: { <%= componentNameCamel %>L
 <% } %>
 export default function* rootSaga() {
   yield fork(takeLatest, <%= componentNameCamel %>ActionTypes.CLICKED_VIEW_SCENE, performShowScene);
-<% if (includeReducer) { %>  yield fork(takeLatest, <%= componentNameCamel %>ActionTypes.PULLED_TO_REFRESH, performRefreshData);
+<% if (includeReducer) { %>  yield fork(takeLatest, navigationActionTypes.newSceneFocused(constants.sceneKey.<%= componentNameConstant %>), onFocusScene);
+  yield fork(takeLatest, <%= componentNameCamel %>ActionTypes.PULLED_TO_REFRESH, performRefreshData);
   yield fork(takeLatest, <%= componentNameCamel %>ActionTypes.GET, performGet<%= componentName %>);
 <% } %>}
