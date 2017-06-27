@@ -181,6 +181,20 @@ module.exports = class extends Generator {
         `errorState.${componentNameCamel} = reducersMap.${componentNameCamel}(undefined, ${componentName}Actions.failedToGet(error));`,
         errorStatePath);
       this._insertBlankLineBeforeMatch('new-reducers-here', errorStatePath);
+
+      // Tweak mock data index.js.
+      const mockDataIndexPath = path.join(projectPath, 'src/mock-data/responses/index.js');
+      this._insertLineBeforeMatch(
+        'new-exports-here',
+        `export * from './mock${componentName}';`,
+        mockDataIndexPath);
+
+      // Tweak mock fetch responses.
+      const mockDataPath = path.join(projectPath, 'src/mock-data/utils/fetchMockData.js');
+      this._insertLineBeforeMatch(
+        'new-endpoints-here',
+        `${getIndent(2)}'/api/${componentNameCamel}': createMockResponse({ ${componentNameCamel}: mockResponse.mock${componentName}.toJS() }),`,
+        mockDataPath);
     }
   }
 
