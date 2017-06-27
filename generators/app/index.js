@@ -67,17 +67,32 @@ module.exports = class extends Generator {
     } = this.props;
 
     // Ignore certain template files based on config flags.
-    const templateGlobsToIgnore = includeReducer ? '' : 'reducers|source|source.test';
+    const templateGlobsToIgnore = includeReducer ? '' : 'reducers|source|source.test|mockName';
 
-    const templates = glob.sync(`${__dirname}/templates/**/!(${templateGlobsToIgnore}).ejs`);
+    const relativeTemplates = glob.sync(`${__dirname}/templates/relative/**/!(${templateGlobsToIgnore}).ejs`);
 
     // Copy over all the template files, filling in the placeholders.
-    templates.forEach((templatePath) => {
-      const filename = path.relative(`${__dirname}/templates`, templatePath);
+    relativeTemplates.forEach((templatePath) => {
+      const filePath = path.relative(`${__dirname}/templates/relative`, templatePath);
+      const formattedPath = filePath.replace('.ejs', '.js').replace('Name', componentName);
 
       this.fs.copyTpl(
-        this.templatePath(filename),
-        path.join(projectPath, componentPath, componentName, filename.replace('.ejs', '.js')),
+        this.templatePath(`relative/${filePath}`),
+        path.join(projectPath, componentPath, componentName, formattedPath),
+        this.props
+      );
+    });
+
+    const rootTemplates = glob.sync(`${__dirname}/templates/root/**/!(${templateGlobsToIgnore}).ejs`);
+
+    // Copy over all the template files, filling in the placeholders.
+    rootTemplates.forEach((templatePath) => {
+      const filePath = path.relative(`${__dirname}/templates/root`, templatePath);
+      const formattedPath = filePath.replace('.ejs', '.js').replace('Name', componentName);
+
+      this.fs.copyTpl(
+        this.templatePath(`root/${filePath}`),
+        path.join(projectPath, formattedPath),
         this.props
       );
     });
