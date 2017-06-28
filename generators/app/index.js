@@ -131,7 +131,7 @@ module.exports = class extends Generator {
       workflowsPath);
     this._insertLineBeforeMatch(
       'new-workflows-here',
-      `${getIndent(2)}${componentNameCamel}Workflow(),`,
+      `${getIndent(2)}call(${componentNameCamel}Workflow),`,
       workflowsPath);
 
     // Tweak route list.
