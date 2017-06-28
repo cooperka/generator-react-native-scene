@@ -30,10 +30,8 @@ class <%= componentName %> extends Component {
 
   static sceneKey = constants.sceneKey.<%= componentNameConstant %>;
 
-  static route = {
-    navigationBar: {
-      title: '<%= sceneTitle %>',
-    },
+  static navigationOptions = {
+    title: '<%= sceneTitle %>',
   };
 
   render() {
