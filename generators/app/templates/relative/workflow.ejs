@@ -1,3 +1,5 @@
+'use extensible';
+
 <% if (includeReducer) { %>import Immutable from 'immutable';<% } %>
 import { <% if (includeReducer) { %>select, call, <% } %>put, fork, takeLatest } from 'redux-saga/effects';
 <% if (includeReducer) { %>
