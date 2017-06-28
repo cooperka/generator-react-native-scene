@@ -1,6 +1,6 @@
 'use extensible';
-
-<% if (includeReducer) { %>import Immutable from 'immutable';<% } %>
+<% if (includeReducer) { %>
+import Immutable from 'immutable';<% } %>
 import { <% if (includeReducer) { %>select, call, <% } %>put, fork, takeLatest } from 'redux-saga/effects';
 <% if (includeReducer) { %>
 import navigationActionTypes from 'cribspot-core/src/components/navigation/actions';
@@ -9,7 +9,7 @@ import { BadResponseError } from 'cribspot-core/src/errors';
 <% } %>import constants from '../../../constants';
 
 import { NavigationActions } from '../../navigation/actions';
-import <%= componentNameCamel %>ActionTypes, { <%= componentName %>Actions } from './actions';
+import <%= componentNameCamel %>ActionTypes<% if (includeReducer) { %>, { <%= componentName %>Actions }<% } %> from './actions';
 <% if (includeReducer) { %>
 import <%= componentNameCamel %>Source from './source';
 <% } %>
