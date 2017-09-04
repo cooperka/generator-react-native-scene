@@ -1,6 +1,31 @@
 'use extensible';
+<% if (includeReducer) { %>
+import Immutable from 'immutable';
+import { createSelector } from 'reselect';
 
+/**
+ * Given API data from the backend, convert it for presentation to the user.
+ *
+ * @param <%= componentNameCamel %> {Immutable.List}
+ * @returns {Immutable.List}
+ */
+function parse<%= componentName %>FromBackend(<%= componentNameCamel %>) {
+  if (!<%= componentNameCamel %>) return Immutable.List();
+
+  return <%= componentNameCamel %>.map((<%= componentNameCamel %>Item) => {
+    return <%= componentNameCamel %>Item;
+  });
+}
+<% } %>
 const utils = {
+<% if (includeReducer) { %>
+  get <%= componentNameCamel %>Selector() {
+    return createSelector(
+      (state) => state.<%= componentNameCamel %>.<%= componentNameCamel %>,
+      (<%= componentNameCamel %>) => parse<%= componentName %>FromBackend(<%= componentNameCamel %>),
+    );
+  },
+<% } %>
 };
 
 export default utils;
