@@ -57,12 +57,13 @@ module.exports = class extends Generator {
 
       this.props.componentNameConstant = changeCase.constantCase(this.props.componentName);
       this.props.componentNameCamel = changeCase.camelCase(this.props.componentName);
+      this.props.componentNameSnake = changeCase.snakeCase(this.props.componentName);
     });
   }
 
   writing() {
     const {
-      projectPath, componentPath, componentName, componentNameConstant, componentNameCamel,
+      projectPath, componentPath, componentName, componentNameConstant, componentNameCamel, componentNameSnake,
       includeReducer,
     } = this.props;
 
@@ -193,7 +194,7 @@ module.exports = class extends Generator {
       const mockDataPath = path.join(projectPath, 'src/mock-data/utils/fetchMockData.js');
       this._insertLineBeforeMatch(
         'new-endpoints-here',
-        `${getIndent(2)}'/api/${componentNameCamel}': createMockResponse({ ${componentNameCamel}: mockResponse.mock${componentName}.toJS() }),`,
+        `${getIndent(2)}'/api/${componentNameSnake}': createMockResponse({ ${componentNameCamel}: mockResponse.mock${componentName}.toJS() }),`,
         mockDataPath);
     }
   }
