@@ -21,9 +21,9 @@ module.exports = class extends Generator {
       },
       {
         type: 'input',
-        name: 'componentPath',
-        message: 'Relative path the new component\'s parent directory',
-        default: 'src/components/scenes',
+        name: 'subfolder',
+        message: 'Subfolder for the new component directory (src/components/SUBFOLDER)',
+        default: 'scenes',
       },
       {
         type: 'input',
@@ -63,7 +63,7 @@ module.exports = class extends Generator {
 
   writing() {
     const {
-      projectPath, componentPath, componentName, componentNameConstant, componentNameCamel, componentNameSnake,
+      projectPath, subfolder, componentName, componentNameConstant, componentNameCamel, componentNameSnake,
       includeReducer,
     } = this.props;
 
@@ -79,7 +79,7 @@ module.exports = class extends Generator {
 
       this.fs.copyTpl(
         this.templatePath(`relative/${filePath}`),
-        path.join(projectPath, componentPath, componentName, formattedPath),
+        path.join(projectPath, 'src/components', subfolder, componentName, formattedPath),
         this.props
       );
     });
@@ -98,6 +98,8 @@ module.exports = class extends Generator {
       );
     });
 
+    const componentPath = subfolder ? `${subfolder}/${componentName}` : componentName;
+
     // Tweak constants file.
     const constantsPath = path.join(projectPath, 'src', 'constants.js');
     this._insertLineBeforeMatch(
@@ -112,7 +114,7 @@ module.exports = class extends Generator {
     if (includeReducer) {
       // Tweak reducers index.
       const reducersPath = path.join(projectPath, 'src', 'reducers.index.js');
-      const reducerImportPath = `./components/scenes/${componentName}/reducers`;
+      const reducerImportPath = `./components/${componentPath}/reducers`;
       this._insertLineBeforeMatch(
         'new-imports-here',
         `import { ${componentName}Reducer } from '${reducerImportPath}';`,
@@ -125,7 +127,7 @@ module.exports = class extends Generator {
 
     // Tweak workflows index.
     const workflowsPath = path.join(projectPath, 'src', 'workflows.index.js');
-    const workflowImportPath = `./components/scenes/${componentName}/workflow`;
+    const workflowImportPath = `./components/${componentPath}/workflow`;
     this._insertLineBeforeMatch(
       'new-imports-here',
       `import ${componentNameCamel}Workflow from '${workflowImportPath}';`,
@@ -139,7 +141,7 @@ module.exports = class extends Generator {
     const routerPath = path.join(projectPath, 'src', 'app-utils.js');
     this._insertLineBeforeMatch(
       'new-imports-here',
-      `${getIndent(4)}require('./components/scenes/${componentName}/index').default,`,
+      `${getIndent(4)}require('./components/${componentPath}/index').default,`,
       routerPath);
 
     if (includeReducer) {
@@ -147,7 +149,7 @@ module.exports = class extends Generator {
       const populatedStatePath = path.join(projectPath, 'src/mock-data/states/populatedState.js');
       this._insertLineBeforeMatch(
         'new-actions-here',
-        `import { ${componentName}Actions } from '../../components/scenes/${componentName}/actions';`,
+        `import { ${componentName}Actions } from '../../components/${componentPath}/actions';`,
         populatedStatePath);
       this._insertLineBeforeMatch(
         'new-data-here',
@@ -163,7 +165,7 @@ module.exports = class extends Generator {
       const loadingStatePath = path.join(projectPath, 'src/mock-data/states/loadingState.js');
       this._insertLineBeforeMatch(
         'new-actions-here',
-        `import { ${componentName}Actions } from '../../components/scenes/${componentName}/actions';`,
+        `import { ${componentName}Actions } from '../../components/${componentPath}/actions';`,
         loadingStatePath);
       this._insertLineBeforeMatch(
         'new-reducers-here',
@@ -175,7 +177,7 @@ module.exports = class extends Generator {
       const errorStatePath = path.join(projectPath, 'src/mock-data/states/errorState.js');
       this._insertLineBeforeMatch(
         'new-actions-here',
-        `import { ${componentName}Actions } from '../../components/scenes/${componentName}/actions';`,
+        `import { ${componentName}Actions } from '../../components/${componentPath}/actions';`,
         errorStatePath);
       this._insertLineBeforeMatch(
         'new-reducers-here',
