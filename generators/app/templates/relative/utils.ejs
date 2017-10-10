@@ -16,15 +16,15 @@ function parse<%= componentName %>FromBackend(<%= componentNameCamel %>) {
     return <%= componentNameCamel %>Item;
   });
 }
+
+const <%= componentNameCamel %>Selector = createSelector(
+  (state) => state.<%= componentNameCamel %>.<%= componentNameCamel %>,
+  parse<%= componentName %>FromBackend,
+);
 <% } %>
-const utils = {
-<% if (includeReducer) { %>
-  get <%= componentNameCamel %>Selector() {
-    return createSelector(
-      (state) => state.<%= componentNameCamel %>.<%= componentNameCamel %>,
-      (<%= componentNameCamel %>) => parse<%= componentName %>FromBackend(<%= componentNameCamel %>),
-    );
-  },
+const utils = {<% if (includeReducer) { %>
+
+  <%= componentNameCamel %>Selector,
 <% } %>
 };
 
