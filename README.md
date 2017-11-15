@@ -1,6 +1,13 @@
 # Generator for React Native scenes
 
-Yeoman generator for React Native scenes (aka screens/routes/views) customized for Cribspot.
+Yeoman generator for React Native scenes (aka screens/routes/views) customized for Cribspot's mobile apps.
+
+The scenes that are generated rely on the following libraries, along with some proprietary helper methods which you could easily stub out yourself; have a look at the [`*.ejs`](https://github.com/cribspot/generator-react-native-scene/find/master) files for specific details.
+
+- [react-navigation](https://github.com/react-community/react-navigation)
+- [redux-saga](https://github.com/redux-saga/redux-saga)
+- [reselect](https://github.com/reactjs/reselect)
+- [immutable](https://github.com/facebook/immutable-js)
 
 ## Installation
 
