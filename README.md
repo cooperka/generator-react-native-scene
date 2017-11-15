@@ -1,6 +1,6 @@
 # Generator for React Native scenes
 
-Yeoman generator for React Native app scenes for Cribspot.
+Yeoman generator for React Native scenes (aka screens/routes/views) customized for Cribspot.
 
 ## Installation
 
@@ -14,8 +14,8 @@ Yeoman generator for React Native app scenes for Cribspot.
 2. Download and link this generator:
 
     ```bash
-    git clone https://gitlab.com/cribspot/generator-crib-rn-scene.git
-    cd generator-crib-rn-scene
+    git clone https://github.com/cribspot/generator-react-native-scene.git
+    cd generator-react-native-scene
     npm link
     ```
 
@@ -29,7 +29,7 @@ for inserting lines of code into existing files during generation.
 Run the generator wherever you want and follow the prompts:
 
 ```bash
-yo crib-rn-scene
+yo react-native-scene
 ```
 
 ## Getting To Know Yeoman
